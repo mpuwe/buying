@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1" name="viewport" />
-<title>Rimba Collection - Online Clothing Shopping (Rwanda)</title>
+<title>ECI Creation Shop- Online Clothing Shopping (Rwanda)</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
@@ -309,6 +309,20 @@ footer {
   align-self: flex-start;
   word-wrap: break-word;
 }
+/* Product image fixed height */
+.product-image {
+  height: 280px !important; /* smaller height for better layout */
+  object-fit: cover !important;
+  width: 100% !important;
+}
+/* Product card cursor and focus */
+.product-card {
+  cursor: pointer;
+}
+.product-card:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -316,9 +330,9 @@ footer {
 <header class="shadow sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 bg-[var(--primary-color)]" >
   <a aria-label="Rimba Collection Home" class="flex items-center select-none" href="#home" id="logoLink" >
     <div aria-hidden="true" class="flex items-center justify-center h-10 w-10 rounded-full bg-white text-[var(--primary-color)] font-bold text-xl select-none mr-3" >
-      RC
+      ES
     </div>
-    <span class="text-white text-2xl font-semibold">Rimba Collection</span>
+    <span class="text-white text-2xl font-semibold">ECI Creation Shop</span>
   </a>
   <nav aria-label="Primary Navigation" class="hidden md:flex space-x-8 font-semibold text-white" id="desktopNav" role="navigation" >
     <button aria-selected="true" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="home" role="tab" tabindex="0" type="button" >
@@ -330,9 +344,9 @@ footer {
     <button aria-selected="false" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="Women" role="tab" tabindex="-1" type="button" >
       Women
     </button>
-    <button aria-selected="false" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="Accessories" role="tab" tabindex="-1" type="button" >
+    <!-- <button aria-selected="false" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="Accessories" role="tab" tabindex="-1" type="button" >
       Accessories
-    </button>
+    </button> -->
     <button aria-label="Open shopping cart" class="flex items-center space-x-1 hover:underline focus:underline focus:outline-none" id="openCartBtn" role="button" tabindex="0" type="button" >
       <i class="fas fa-shopping-cart"></i>
       <span>Cart</span>
@@ -393,25 +407,25 @@ footer {
 <section aria-label="Hero section with featured collections and call to action" class="relative bg-gradient-to-r from-indigo-700 via-indigo-800 to-indigo-900 text-white py-20 px-6 sm:px-12 lg:px-20" >
   <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
     <div class="lg:w-1/2 space-y-6">
-      <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight"> Discover Your Style with <span class="text-emerald-400">Rimba Collection</span> </h1>
+      <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight"> Discover Your Style with <span class="text-emerald-400">ECI Creation Shop</span> </h1>
       <p class="text-lg sm:text-xl text-indigo-200 max-w-xl"> Explore the latest trends in men's, women's, and accessories fashion. Quality, comfort, and style all in one place. </p>
       <div class="flex flex-wrap gap-4">
         <a class="inline-block bg-emerald-500 hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300 text-white font-semibold py-3 px-6 rounded-lg transition" href="#productsGrid" >Shop Now</a >
         <a class="inline-block border border-white hover:border-emerald-400 focus:ring-4 focus:ring-emerald-300 text-white font-semibold py-3 px-6 rounded-lg transition" href="#contact" >Contact Us</a >
       </div>
     </div>
-    <div class="lg:w-1/2 grid grid-cols-2 gap-6">
+    <div style="height: 450px;" class="lg:w-1/2 grid grid-cols-2 gap-6">
       <div class="overflow-hidden rounded-lg shadow-lg">
-        <img alt="Men's fashion model wearing a stylish indigo outfit with modern accessories, standing confidently in urban setting" class="w-full h-full object-cover" height="600" loading="lazy" src="https://storage.googleapis.com/a1aa/image/0388bcdb-acd6-4498-92a1-7d5ef4108746.jpg" width="600" />
+        <img alt="Men's fashion model wearing a stylish indigo outfit with modern accessories, standing confidently in urban setting" class="w-full h-full object-cover" height="600" loading="lazy" src="cloth3.jpg" width="600" />
       </div>
       <div class="overflow-hidden rounded-lg shadow-lg">
-        <img alt="Women's fashion model in an elegant emerald green dress posing gracefully in a natural outdoor environment" class="w-full h-full object-cover" height="600" loading="lazy" src="https://storage.googleapis.com/a1aa/image/ec30fa34-e5d9-4a30-273c-5c92586d5814.jpg" width="600" />
+        <img alt="Women's fashion model in an elegant emerald green dress posing gracefully in a natural outdoor environment" class="w-full h-full object-cover" height="600" loading="lazy" src="unnamed.jpg" width="600" />
       </div>
       <div class="overflow-hidden rounded-lg shadow-lg">
-        <img alt="Display of high-quality leather wallet and stylish baseball cap on a wooden table with soft natural lighting" class="w-full h-full object-cover" height="600" loading="lazy" src="https://storage.googleapis.com/a1aa/image/0728287c-d7cc-40ad-5459-aec567efcdc8.jpg" width="600" />
+        <img alt="Display of high-quality leather wallet and stylish baseball cap on a wooden table with soft natural lighting" class="w-full h-full object-cover" height="600" loading="lazy" src="unnamed (1).jpg" width="600" />
       </div>
       <div class="overflow-hidden rounded-lg shadow-lg">
-        <img alt="Casual outfit featuring trendy sneakers and blue denim jeans laid out on a rustic background" class="w-full h-full object-cover" height="600" loading="lazy" src="https://storage.googleapis.com/a1aa/image/0b1ec204-04d9-42bf-b521-747b01ce6827.jpg" width="600" />
+        <img alt="Casual outfit featuring trendy sneakers and blue denim jeans laid out on a rustic background" class="w-full h-full object-cover" height="600" loading="lazy" src="anic.png" width="600" />
       </div>
     </div>
   </div>
@@ -429,7 +443,7 @@ footer {
         <option value="">All Categories</option>
         <option value="Men">Men</option>
         <option value="Women">Women</option>
-        <option value="Accessories">Accessories</option>
+        <!-- <option value="Accessories">Accessories</option> -->
       </select>
       <select aria-label="Filter by size" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-color" id="sizeFilter" style="--tw-ring-color: var(--primary-color)" >
         <option value="">All Sizes</option>
@@ -593,9 +607,9 @@ footer {
         <div aria-hidden="true" class="flex items-center justify-center h-10 w-10 rounded-full bg-white text-[var(--primary-color)] font-bold text-xl select-none mr-3" >
           RC
         </div>
-        <span>Rimba Collection</span>
+        <span>ECI Creation Shop</span>
       </div>
-      <p>© 2024 Rimba Collection. All rights reserved.</p>
+      <p>© 2024 ECI Creation Shop. All rights reserved.</p>
       <p> Developed by <a href="https://github.com/ElieMpuhwezimana" rel="noopener noreferrer" target="_blank" >Elie Mpuhwezimana</a > </p>
     </div>
     <div class="footer-section">
@@ -616,26 +630,21 @@ footer {
   </div>
 </footer>
 <script>
-// Product data with real images from Unsplash and placeholders for missing images
 const products = [
-  { id: 1, name: "Men's Classic White Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 25.99, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=400&q=80", description: "A timeless white shirt for men, perfect for formal and casual occasions." },
-  { id: 2, name: "Women's Red Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 45.5, image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80", description: "Light and breezy red summer dress for women, ideal for warm weather." },
-  { id: 3, name: "Leather Wallet", category: "Accessories", size: [], price: 19.99, image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80", description: "Durable leather wallet with multiple compartments." },
-  { id: 4, name: "Men's Blue Denim Jeans", category: "Men", size: ["M", "L", "XL"], price: 39.99, image: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=400&q=80", description: "Comfortable and stylish blue denim jeans for men." },
-  { id: 5, name: "Women's Black Leather Jacket", category: "Women", size: ["S", "M", "L"], price: 89.99, image: "https://images.unsplash.com/photo-1520975698513-7a7a7a7a7a7a?auto=format&fit=crop&w=400&q=80", description: "Elegant black leather jacket for women, perfect for chilly days." },
-  { id: 6, name: "Unisex Baseball Cap", category: "Accessories", size: [], price: 15.0, image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80", description: "Adjustable baseball cap suitable for all genders." },
-  { id: 7, name: "Men's Formal Black Shoes", category: "Men", size: ["M", "L", "XL"], price: 59.99, image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80", description: "Classic black formal shoes for men, perfect for office and events." },
-  { id: 8, name: "Women's Casual Sneakers", category: "Women", size: ["S", "M", "L"], price: 49.99, image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80", description: "Comfortable and stylish sneakers for everyday wear." },
-  { id: 9, name: "Silk Scarf", category: "Accessories", size: [], price: 22.5, image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", description: "Elegant silk scarf with vibrant colors." },
-  { id: 10, name: "Men's Sports Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 75.0, image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80", description: "Lightweight sports jacket for men, suitable for outdoor activities." },
-  { id: 11, name: "Women's Evening Gown", category: "Women", size: ["S", "M", "L"], price: 120.0, image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80", description: "Elegant evening gown for special occasions." },
-  { id: 12, name: "Canvas Backpack", category: "Accessories", size: [], price: 35.0, image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", description: "Durable canvas backpack with multiple compartments." },
-  { id: 13, name: "Men's Casual T-Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 18.0, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=400&q=80", description: "Comfortable casual t-shirt for men, available in multiple colors." },
-  { id: 14, name: "Women's Yoga Pants", category: "Women", size: ["S", "M", "L"], price: 29.99, image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80", description: "Stretchy and comfortable yoga pants for women." },
-  { id: 15, name: "Woolen Gloves", category: "Accessories", size: [], price: 12.0, image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", description: "Warm woolen gloves for cold weather." },
+  { id: 1, name: "Men's Classic White Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 25.99, image: "unnamed (1).jpg", description: "A timeless white shirt for men, perfect for formal and casual occasions." },
+  { id: 2, name: "Women's Red Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 45.5, image: "unnamed (2).jpg", description: "Light and breezy red summer dress for women, ideal for warm weather." },
+  { id: 4, name: "Men's Blue Denim Jeans", category: "Men", size: ["M", "L", "XL"], price: 39.99, image: "unnamed (3).jpg", description: "Comfortable and stylish blue denim jeans for men." },
+  { id: 5, name: "Women's Black Leather Jacket", category: "Women", size: ["S", "M", "L"], price: 89.99, image: "unnamed.jpg", description: "Elegant black leather jacket for women, perfect for chilly days." },
+  { id: 7, name: "Men's Formal Black Shoes", category: "Men", size: ["M", "L", "XL"], price: 59.99, image: "cloth1.jpg", description: "Classic black formal shoes for men, perfect for office and events." },
+  { id: 8, name: "Women's Casual Sneakers", category: "Women", size: ["S", "M", "L"], price: 49.99, image: "cloth2.jpg", description: "Comfortable and stylish sneakers for everyday wear." },
+  { id: 10, name: "Men's Sports Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 75.0, image: "cloth3.jpg", description: "Lightweight sports jacket for men, suitable for outdoor activities." },
+  { id: 11, name: "Women's Evening Gown", category: "Women", size: ["S", "M", "L"], price: 120.0, image: "cloth4.jpg", description: "Elegant evening gown for special occasions." },
+  { id: 13, name: "Men's Casual T-Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 18.0, image: "good.jpg", description: "Comfortable casual t-shirt for men, available in multiple colors." },
+  { id: 14, name: "Women's Yoga Pants", category: "Women", size: ["S", "M", "L"], price: 29.99, image: "anic.png", description: "Stretchy and comfortable yoga pants for women." },
 ];
+
 let cart = {};
-let currentUser = null; // {role: 'user'|'admin', name, email}
+let currentUser = null;
 const productsGrid = document.getElementById("productsGrid");
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
@@ -667,13 +676,11 @@ const sizeSelect = document.getElementById("sizeSelect");
 const quantityInput = document.getElementById("quantityInput");
 const addToCartDetailBtn = document.getElementById("addToCartDetailBtn");
 const chatBargainBtn = document.getElementById("chatBargainBtn");
-// Chatbot elements
 const chatbot = document.getElementById("chatbot");
 const chatbotMessages = document.getElementById("chatbotMessages");
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotSendBtn = document.getElementById("chatbotSendBtn");
 const closeChatbotBtn = document.getElementById("closeChatbotBtn");
-// Auth modal elements
 const authModal = document.getElementById("authModal");
 const closeAuthModal = document.getElementById("closeAuthModal");
 const authModalTitle = document.getElementById("authModalTitle");
@@ -683,27 +690,22 @@ const authNameInput = document.getElementById("authName");
 const authEmailInput = document.getElementById("authEmail");
 const authPasswordInput = document.getElementById("authPassword");
 const authSwitchText = document.getElementById("authSwitchText");
-// User menu elements
 const userMenuButton = document.getElementById("userMenuButton");
 const userMenu = document.getElementById("userMenu");
 const loginLink = document.getElementById("loginLink");
 const signupLink = document.getElementById("signupLink");
 const adminLoginLink = document.getElementById("adminLoginLink");
 const logoutBtn = document.getElementById("logoutBtn");
-// Mobile auth buttons
 const mobileLoginBtn = document.getElementById("mobileLoginBtn");
 const mobileSignupBtn = document.getElementById("mobileSignupBtn");
 const mobileAdminLoginBtn = document.getElementById("mobileAdminLoginBtn");
 const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
 let currentProduct = null;
-// Store admin password securely in localStorage (hashed in real app, plain here for demo)
 const ADMIN_EMAIL = "mpuwezimanaelie@gmail.com";
 const ADMIN_PASSWORD_KEY = "rimbaAdminPassword";
-// Initialize admin password if not set
 if (!localStorage.getItem(ADMIN_PASSWORD_KEY)) {
   localStorage.setItem(ADMIN_PASSWORD_KEY, "admin123");
 }
-// Utility: Save user session to localStorage
 function saveUserSession() {
   if (currentUser) {
     localStorage.setItem("rimbaUser", JSON.stringify(currentUser));
@@ -712,7 +714,6 @@ function saveUserSession() {
   }
   updateUserUI();
 }
-// Utility: Load user session from localStorage
 function loadUserSession() {
   const userData = localStorage.getItem("rimbaUser");
   if (userData) {
@@ -722,10 +723,8 @@ function loadUserSession() {
   }
   updateUserUI();
 }
-// Update UI based on user login state
 function updateUserUI() {
   if (currentUser) {
-    // Logged in
     userMenuButton.setAttribute("aria-expanded", "false");
     loginLink.classList.add("hidden");
     signupLink.classList.add("hidden");
@@ -737,7 +736,6 @@ function updateUserUI() {
     mobileLogoutBtn.classList.remove("hidden");
     userMenuButton.querySelector("span").textContent = currentUser.name || currentUser.email;
   } else {
-    // Logged out
     loginLink.classList.remove("hidden");
     signupLink.classList.remove("hidden");
     adminLoginLink.classList.remove("hidden");
@@ -749,20 +747,17 @@ function updateUserUI() {
     userMenuButton.querySelector("span").textContent = "User";
   }
 }
-// Toggle user menu dropdown
 userMenuButton.addEventListener("click", () => {
   const expanded = userMenuButton.getAttribute("aria-expanded") === "true";
   userMenuButton.setAttribute("aria-expanded", String(!expanded));
   userMenu.classList.toggle("hidden");
 });
-// Close user menu if clicked outside
 document.addEventListener("click", (e) => {
   if (!userMenu.contains(e.target) && !userMenuButton.contains(e.target)) {
     userMenu.classList.add("hidden");
     userMenuButton.setAttribute("aria-expanded", "false");
   }
 });
-// Show auth modal with mode: 'login', 'signup', 'admin'
 function showAuthModal(mode) {
   authForm.reset();
   authModal.classList.remove("hidden");
@@ -785,7 +780,6 @@ function showAuthModal(mode) {
     authModalTitle.textContent = "Admin Login";
     authSwitchText.innerHTML = 'Back to <span id="switchToLoginFromAdmin" class="text-blue-600 cursor-pointer hover:underline">User Login</span>';
   }
-  // Add event listeners for switching modes
   setTimeout(() => {
     const switchToSignup = document.getElementById("switchToSignup");
     const switchToLogin = document.getElementById("switchToLogin");
@@ -803,13 +797,11 @@ function showAuthModal(mode) {
   authEmailInput.focus();
   authForm.dataset.mode = mode;
 }
-// Close auth modal
 closeAuthModal.addEventListener("click", () => {
   authModal.classList.add("hidden");
   authModal.classList.remove("popupContainer");
   authModal.setAttribute("aria-hidden", "true");
 });
-// Handle auth form submission
 authForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const mode = authForm.dataset.mode;
@@ -820,9 +812,7 @@ authForm.addEventListener("submit", (e) => {
     alert("Please fill in all required fields.");
     return;
   }
-  // Simulate authentication (in real app, call backend)
   if (mode === "login") {
-    // For demo, accept any email/password except admin email
     if (email === ADMIN_EMAIL) {
       alert("Please use Admin login for admin accounts.");
       return;
@@ -834,7 +824,6 @@ authForm.addEventListener("submit", (e) => {
     };
     alert(`Welcome back, ${currentUser.name}!`);
   } else if (mode === "signup") {
-    // For demo, just accept and create user
     currentUser = {
       role: "user",
       email,
@@ -842,7 +831,6 @@ authForm.addEventListener("submit", (e) => {
     };
     alert(`Account created! Welcome, ${name}!`);
   } else if (mode === "admin") {
-    // Admin login: check email and password against stored password
     if (email === ADMIN_EMAIL) {
       const storedPassword = localStorage.getItem(ADMIN_PASSWORD_KEY);
       if (password === storedPassword) {
@@ -852,7 +840,6 @@ authForm.addEventListener("submit", (e) => {
           name: "Admin"
         };
         alert("Admin login successful. Redirecting to admin dashboard...");
-        // Redirect to admin.html
         window.location.href = "ok.html";
         return;
       } else {
@@ -869,7 +856,6 @@ authForm.addEventListener("submit", (e) => {
   authModal.classList.remove("popupContainer");
   authModal.setAttribute("aria-hidden", "true");
 });
-// Logout function
 function logout() {
   currentUser = null;
   saveUserSession();
@@ -884,7 +870,6 @@ mobileLogoutBtn.addEventListener("click", () => {
   logout();
   mobileMenu.classList.add("hidden");
 });
-// Login/signup/admin links
 loginLink.addEventListener("click", (e) => {
   e.preventDefault();
   showAuthModal("login");
@@ -915,7 +900,6 @@ mobileAdminLoginBtn.addEventListener("click", () => {
   showAuthModal("admin");
   mobileMenu.classList.add("hidden");
 });
-// Render products with filtering and animation
 function renderProducts(skipAnimation = false) {
   const searchTerm = searchInput.value.trim().toLowerCase();
   const category = categoryFilter.value;
@@ -952,7 +936,7 @@ function renderProducts(skipAnimation = false) {
       productCard.setAttribute("aria-label", `View details for ${product.name}`);
       productCard.innerHTML = `
         <div class="thumb flex-grow">
-          <img src="${product.image}" alt="Image of ${product.name}, category ${product.category}, priced at $${product.price.toFixed(2)}" class="w-full h-64 object-cover product-image" loading="lazy" />
+          <img src="${product.image}" alt="Image of ${product.name}, category ${product.category}, priced at $${product.price.toFixed(2)}" class="w-full product-image" loading="lazy" />
         </div>
         <div class="p-4 flex flex-col flex-grow">
           <h3 class="text-lg font-semibold text-gray-800 mb-1">${product.name}</h3>
@@ -997,7 +981,6 @@ function renderProducts(skipAnimation = false) {
     });
   }, 300);
 }
-// Open product detail modal
 function openProductDetail(productId) {
   currentProduct = products.find((p) => p.id === productId);
   if (!currentProduct) return;
@@ -1038,7 +1021,6 @@ productDetailModal.addEventListener("click", (e) => {
     closeChatbot();
   }
 });
-// Add to cart from detail modal
 addToCartDetailBtn.addEventListener("click", () => {
   if (!currentProduct) return;
   if (!currentUser) {
@@ -1062,7 +1044,6 @@ addToCartDetailBtn.addEventListener("click", () => {
   productDetailModal.classList.remove("popupContainer");
   closeChatbot();
 });
-// Chat for Bargaining opens chatbot, requires login
 chatBargainBtn.addEventListener("click", () => {
   if (!currentUser) {
     productDetailModal.classList.add("hidden");
@@ -1072,7 +1053,6 @@ chatBargainBtn.addEventListener("click", () => {
   }
   openChatbot();
 });
-// Cart functions
 function addToCart(productId, size = "", quantity = 1) {
   const key = size ? `${productId}-${size}` : `${productId}`;
   if (cart[key]) {
@@ -1212,7 +1192,6 @@ checkoutForm.addEventListener("submit", (e) => {
   closeCheckout();
   closeCart();
 });
-// Footer contact form submission
 const footerContactForm = document.getElementById("footerContactForm");
 footerContactForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -1257,7 +1236,6 @@ document.querySelectorAll("nav a[href^='#']").forEach((link) => {
     }
   });
 });
-// Chatbot functionality
 function openChatbot() {
   chatbot.style.display = "flex";
   chatbotInput.value = "";
@@ -1295,7 +1273,6 @@ function sendMessage() {
   if (!text) return;
   addUserMessage(text);
   chatbotInput.value = "";
-  // Simple simulated bot response
   setTimeout(() => {
     if (text.toLowerCase().includes("price")) {
       addBotMessage("I can help you with price negotiations. What product are you interested in?");
@@ -1308,11 +1285,9 @@ function sendMessage() {
     }
   }, 1000);
 }
-// Initialize
 loadCart();
 loadUserSession();
 renderProducts();
-// Close modals on Escape
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!productDetailModal.classList.contains("hidden")) {
