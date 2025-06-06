@@ -255,19 +255,20 @@ footer {
   text-decoration: underline;
   outline: none;
 }
-/* Contact form styling */
+/* Contact form styling with increased font size */
 #contact form {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  font-size: 1.125rem; /* Increased font size */
 }
 #contact input, #contact textarea {
   padding: 0.5rem 0.75rem;
   border-radius: 0.375rem;
   border: none;
-  font-size: 0.875rem;
   font-family: inherit;
   resize: vertical;
+  font-size: 1.125rem; /* Increased font size */
 }
 #contact input:focus, #contact textarea:focus {
   outline: 2px solid var(--secondary-color);
@@ -282,7 +283,7 @@ footer {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 1rem;
+  font-size: 1.25rem; /* Increased font size */
 }
 #contact button:hover, #contact button:focus {
   background-color: #059669; /* Emerald-600 */
@@ -323,6 +324,35 @@ footer {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
+/* Animation for diagonal image swap in hero section */
+@keyframes diagonalSwap1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 1;
+  }
+  50% {
+    transform: translate(50%, 50%) rotate(10deg);
+    z-index: 10;
+  }
+}
+@keyframes diagonalSwap2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(-10deg);
+    z-index: 10;
+  }
+}
+.hero-image-animate-1 {
+  animation: diagonalSwap1 6s ease-in-out infinite;
+  will-change: transform;
+}
+.hero-image-animate-2 {
+  animation: diagonalSwap2 6s ease-in-out infinite;
+  will-change: transform;
+}
 </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -344,9 +374,6 @@ footer {
     <button aria-selected="false" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="Women" role="tab" tabindex="-1" type="button" >
       Women
     </button>
-    <!-- <button aria-selected="false" class="tab-button focus:outline-none focus:ring-2 focus:ring-white rounded" data-tab="Accessories" role="tab" tabindex="-1" type="button" >
-      Accessories
-    </button> -->
     <button aria-label="Open shopping cart" class="flex items-center space-x-1 hover:underline focus:underline focus:outline-none" id="openCartBtn" role="button" tabindex="0" type="button" >
       <i class="fas fa-shopping-cart"></i>
       <span>Cart</span>
@@ -381,9 +408,6 @@ footer {
   <button aria-selected="false" class="block w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:bg-[#1e3a8a] focus:outline-none tab-button" data-tab="Women" role="tab" tabindex="-1" type="button" >
     Women
   </button>
-  <button aria-selected="false" class="block w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:bg-[#1e3a8a] focus:outline-none tab-button" data-tab="Accessories" role="tab" tabindex="-1" type="button" >
-    Accessories
-  </button>
   <button class="w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:bg-[#1e3a8a] focus:outline-none flex items-center space-x-1" id="mobileOpenCartBtn" type="button" >
     <i class="fas fa-shopping-cart"></i>
     <span>Cart</span>
@@ -398,7 +422,7 @@ footer {
     <button id="mobileAdminLoginBtn" class="w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:bg-[#1e3a8a] focus:outline-none" type="button" >
       Admin
     </button>
-    <button id="mobileLogoutBtn" class="hidden w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:bg-[#1e3a8a] focus:outline-none" type="button" >
+    <button id="mobileLogoutBtn" class="hidden w-full text-left px-4 py-3 text-white hover:bg-[#1e3a8a] focus:outline-none" type="button" >
       Logout
     </button>
   </div>
@@ -415,10 +439,10 @@ footer {
       </div>
     </div>
     <div style="height: 450px;" class="lg:w-1/2 grid grid-cols-2 gap-6">
-      <div class="overflow-hidden rounded-lg shadow-lg">
+      <div class="overflow-hidden rounded-lg shadow-lg hero-image-animate-1">
         <img alt="Men's fashion model wearing a stylish indigo outfit with modern accessories, standing confidently in urban setting" class="w-full h-full object-cover" height="600" loading="lazy" src="cloth3.jpg" width="600" />
       </div>
-      <div class="overflow-hidden rounded-lg shadow-lg">
+      <div class="overflow-hidden rounded-lg shadow-lg hero-image-animate-2">
         <img alt="Women's fashion model in an elegant emerald green dress posing gracefully in a natural outdoor environment" class="w-full h-full object-cover" height="600" loading="lazy" src="unnamed.jpg" width="600" />
       </div>
       <div class="overflow-hidden rounded-lg shadow-lg">
@@ -443,7 +467,6 @@ footer {
         <option value="">All Categories</option>
         <option value="Men">Men</option>
         <option value="Women">Women</option>
-        <!-- <option value="Accessories">Accessories</option> -->
       </select>
       <select aria-label="Filter by size" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-color" id="sizeFilter" style="--tw-ring-color: var(--primary-color)" >
         <option value="">All Sizes</option>
@@ -510,7 +533,6 @@ footer {
     </button>
   </div>
   <div aria-live="polite" aria-relevant="additions removals" class="flex-grow overflow-y-auto p-4 space-y-4" id="cartItems" tabindex="0" >
-    <!-- Cart items injected here -->
   </div>
   <div class="p-4 border-t border-gray-200">
     <div class="flex justify-between font-semibold text-gray-700 mb-4">
@@ -543,7 +565,6 @@ footer {
       <div>
         <h4 class="text-lg font-semibold text-gray-800 mb-2">Order Summary</h4>
         <ul aria-live="polite" aria-relevant="additions removals" class="max-h-40 overflow-y-auto border border-gray-200 rounded-md p-3 space-y-2 text-gray-700 text-sm" id="checkoutSummary" >
-          <!-- Summary items injected here -->
         </ul>
         <div class="flex justify-between font-semibold text-gray-900 mt-3 text-lg">
           <span>Total:</span>
