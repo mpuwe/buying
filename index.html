@@ -20,6 +20,7 @@
   --success-color: #10b981; /* Emerald-500 */
 }
 body {
+  overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
   margin: 0;
@@ -389,7 +390,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(100%, -100%) rotate(-15deg);
+    transform: translate(50%, -100%) rotate(-15deg);
     z-index: 10;
   }
 }
@@ -399,7 +400,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(100%, 100%) rotate(15deg);
+    transform: translate(50%, 100%) rotate(15deg);
     z-index: 10;
   }
 }
@@ -409,7 +410,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(-100%, -100%) rotate(15deg);
+    transform: translate(-50%, -100%) rotate(15deg);
     z-index: 10;
   }
 }
@@ -419,7 +420,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(-100%, 100%) rotate(-15deg);
+    transform: translate(-50%, 100%) rotate(-15deg);
     z-index: 10;
   }
 }
@@ -745,18 +746,18 @@ footer {
 </footer>
 <script>
 const products = [
-  { id: 1, name: "Men's White Dress Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 7.99, image: "dress.png", description: "Classic white dress shirt made from breathable cotton, perfect for formal and office wear." },
+  { id: 1, name: "Men's creative Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 7.99, image: "dress.png", description: "Classic shirt, perfect for formal and office wear." },
   { id: 2, name: "Women's Pink Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 8.5, image: "unnamed (2).jpg", description: "Lightweight pink summer dress with floral patterns, ideal for warm sunny days." },
-  { id: 4, name: "Men's Blue Modern Suit", category: "Men", size: ["M", "L", "XL"], price: 8.9, image: "men1.png", description: "Tailored blue suit jacket and pants set, perfect for business and formal events." },
+  { id: 4, name: "Men's Blue Modern Suit", category: "Men", size: ["M", "L", "XL"], price: 8.9, image: "men1.png", description: "Tailored blue suit, perfect for business and formal events." },
   { id: 5, name: "Women's Dark Green Sweater", category: "Women", size: ["S", "M", "L"], price: 8.59, image: "unnamed.jpg", description: "Cozy dark green knitted sweater, great for chilly weather and casual outings." },
   { id: 7, name: "Men's Classic Wool Sweater", category: "Men", size: ["M", "L", "XL"], price: 9.9, image: "men2.png", description: "Warm wool sweater in neutral tones, suitable for autumn and winter wear." },
-  { id: 8, name: "Women's Casual Sneakers", category: "Women", size: ["S", "M", "L"], price: 7.99, image: "unnamed (1).jpg", description: "Comfortable white sneakers with breathable fabric, perfect for everyday casual wear." },
-  { id: 10, name: "Men's Sports Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 8.0, image: "men4.jpg", description: "Lightweight sports jacket with zip closure, ideal for outdoor activities." },
+  { id: 8, name: "Women's  off-shoulder croptop", category: "Women", size: ["S", "M", "L"], price: 7.99, image: "unnamed (1).jpg", description: "Comfortable pink off-shoulder crop top with breathable fabric, perfect for everyday casual wear." },
+  { id: 10, name: "Men's Sports Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 8.0, image: "men4.jpg", description: "Lightweight shirt with black buttons, ideal for outdoor activities." },
   { id: 11, name: "Women's Evening Gown", category: "Women", size: ["S", "M", "L"], price: 9, image: "cloth4.jpg", description: "Elegant black evening gown with fitted silhouette, perfect for formal occasions." },
-  { id: 13, name: "Men's Casual T-Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men.png", description: "Soft cotton casual t-shirt available in multiple colors, great for daily wear." },
-  { id: 14, name: "Women's Yoga Pants", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "anic.png", description: "Stretchy and comfortable yoga pants designed for flexibility and style." },
-  { id: 15, name: "Men's Denim Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 8.78, image: "men3.jpg", description: "Classic blue denim jacket with button closure, a versatile wardrobe staple." },
-  { id: 16, name: "Women's Floral Blouse", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "cloth3.jpg", description: "Lightweight floral blouse with ruffle details, perfect for spring and summer." },
+  { id: 13, name: "Men's smooth Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men.png", description: "smooth casual shirt available in multiple colors, great for daily wear." },
+  { id: 14, name: "Women's crop top", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "anic.png", description: "Stretchy and comfortable yam cloth designed for flexibility and style." },
+  { id: 15, name: "Baby boy shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 8.78, image: "men3.jpg", description: "Classic yam sweater versatile wardrobe staple." },
+  { id: 16, name: "Women's african kitenge skirt", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "cloth3.jpg", description: "Lightweight floral blouse with ruffle details, perfect for spring and summer." },
 ];
 
 let cart = {};
