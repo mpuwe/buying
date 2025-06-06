@@ -122,7 +122,6 @@ input, select, textarea {
 .product-card {
   cursor: pointer;
   transition: transform 0.3s ease;
-  position: relative;
 }
 .product-card:hover, .product-card:focus {
   transform: scale(1.05);
@@ -316,70 +315,6 @@ footer {
   height: 280px !important; /* smaller height for better layout */
   object-fit: cover !important;
   width: 100% !important;
-  position: relative;
-  display: block;
-}
-/* Zoom container for product images */
-.zoom-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.375rem;
-  cursor: zoom-in;
-}
-.zoom-container .zoom-icon {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: rgba(255,255,255,0.8);
-  color: var(--primary-color);
-  border-radius: 9999px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  user-select: none;
-  z-index: 10;
-}
-.zoom-container:hover .zoom-icon,
-.zoom-container:focus-within .zoom-icon {
-  opacity: 1;
-  pointer-events: auto;
-}
-/* Zoom lens */
-.zoom-lens {
-  position: absolute;
-  border: 2px solid var(--primary-color);
-  border-radius: 0.375rem;
-  cursor: crosshair;
-  display: none;
-  pointer-events: none;
-  z-index: 20;
-  box-shadow: 0 0 8px rgba(30, 64, 175, 0.7);
-}
-/* Zoom result */
-.zoom-result {
-  position: absolute;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  overflow: hidden;
-  display: none;
-  z-index: 30;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  background-color: white;
-}
-/* Zoom result image */
-.zoom-result img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  user-select: none;
-  pointer-events: none;
 }
 /* Animation for diagonal image swap in hero section exchanging four images */
 /* Adjusted so first and last images fly at same pace as second and third */
@@ -424,22 +359,22 @@ footer {
   }
 }
 .hero-image-animate-1 {
-  animation: diagonalSwapFirst 6s ease-in-out 1 forwards;
+  animation: diagonalSwapFirst 6s ease-in-out infinite;
   will-change: transform;
   position: relative;
 }
 .hero-image-animate-2 {
-  animation: diagonalSwapSecond 6s ease-in-out 1 forwards;
+  animation: diagonalSwapSecond 6s ease-in-out infinite;
   will-change: transform;
   position: relative;
 }
 .hero-image-animate-3 {
-  animation: diagonalSwapThird 6s ease-in-out 1 forwards;
+  animation: diagonalSwapThird 6s ease-in-out infinite;
   will-change: transform;
   position: relative;
 }
 .hero-image-animate-4 {
-  animation: diagonalSwapFourth 6s ease-in-out 1 forwards;
+  animation: diagonalSwapFourth 6s ease-in-out infinite;
   will-change: transform;
   position: relative;
 }
@@ -588,11 +523,8 @@ footer {
     <button aria-label="Close product details" class="absolute top-4 right-4 text-gray-600 hover:text-primary-color modal_close focus:outline-none" id="closeProductDetail" type="button" >
       <i class="fas fa-times fa-lg"></i>
     </button>
-    <div aria-label="Product image container" class="md:w-1/2 flex justify-center items-center thumb zoom-container" tabindex="0" >
+    <div aria-label="Product image container" class="md:w-1/2 flex justify-center items-center thumb" tabindex="0" >
       <img alt="" class="w-full max-w-md rounded product-image" id="detailImage" loading="lazy" src="" />
-      <div class="zoom-icon" aria-hidden="true">+</div>
-      <div class="zoom-lens" id="zoomLens"></div>
-      <div class="zoom-result" id="zoomResult"><img alt="" id="zoomResultImage" /></div>
     </div>
     <div class="md:w-1/2 flex flex-col justify-between">
       <div>
@@ -1050,14 +982,9 @@ function renderProducts(skipAnimation = false) {
       productCard.setAttribute("tabindex", "0");
       productCard.setAttribute("role", "button");
       productCard.setAttribute("aria-label", `View details for ${product.name}`);
-
-      // Wrap image in zoom-container with zoom icon
       productCard.innerHTML = `
-        <div class="zoom-container flex-grow relative">
+        <div class="thumb flex-grow">
           <img src="${product.image}" alt="Image of ${product.name}, category ${product.category}, priced at $${product.price.toFixed(2)}" class="w-full product-image" loading="lazy" />
-          <div class="zoom-icon" aria-hidden="true">+</div>
-          <div class="zoom-lens"></div>
-          <div class="zoom-result"><img alt="" /></div>
         </div>
         <div class="p-4 flex flex-col flex-grow">
           <h3 class="text-lg font-semibold text-gray-800 mb-1">${product.name}</h3>
@@ -1068,7 +995,6 @@ function renderProducts(skipAnimation = false) {
           </div>
         </div>
       `;
-
       productCard.addEventListener("click", (e) => {
         if (e.target.closest(".add-to-cart-btn")) return;
         openProductDetail(product.id);
@@ -1080,7 +1006,6 @@ function renderProducts(skipAnimation = false) {
         }
       });
       productsGrid.appendChild(productCard);
-
       if (!skipAnimation) {
         productCard.style.opacity = 0;
         productCard.style.transform = "scale(0.8)";
@@ -1102,87 +1027,8 @@ function renderProducts(skipAnimation = false) {
         addToCart(id);
       });
     });
-
-    // Initialize zoom on all product images in grid
-    initZoomOnGridImages();
   }, 300);
 }
-
-// Zoom functionality for product grid images
-function initZoomOnGridImages() {
-  const zoomContainers = document.querySelectorAll(".zoom-container");
-  zoomContainers.forEach(container => {
-    const img = container.querySelector("img");
-    const lens = container.querySelector(".zoom-lens");
-    const result = container.querySelector(".zoom-result");
-    const resultImg = result.querySelector("img");
-
-    // Set zoom result image src and alt
-    resultImg.src = img.src;
-    resultImg.alt = img.alt;
-
-    // Remove previous listeners if any
-    container.onmousemove = null;
-    container.onmouseleave = null;
-    container.onmouseenter = null;
-
-    // Show lens and result on mouse enter
-    container.addEventListener("mouseenter", () => {
-      lens.style.display = "block";
-      result.style.display = "block";
-    });
-
-    // Hide lens and result on mouse leave
-    container.addEventListener("mouseleave", () => {
-      lens.style.display = "none";
-      result.style.display = "none";
-    });
-
-    // Calculate lens size and position
-    const cx = result.offsetWidth / lens.offsetWidth;
-    const cy = result.offsetHeight / lens.offsetHeight;
-
-    resultImg.style.width = img.width * cx + "px";
-    resultImg.style.height = img.height * cy + "px";
-
-    container.addEventListener("mousemove", moveLens);
-    container.addEventListener("touchmove", moveLens);
-
-    function moveLens(e) {
-      e.preventDefault();
-      const pos = getCursorPos(e);
-      let x = pos.x - lens.offsetWidth / 2;
-      let y = pos.y - lens.offsetHeight / 2;
-
-      if (x > img.width - lens.offsetWidth) x = img.width - lens.offsetWidth;
-      if (x < 0) x = 0;
-      if (y > img.height - lens.offsetHeight) y = img.height - lens.offsetHeight;
-      if (y < 0) y = 0;
-
-      lens.style.left = x + "px";
-      lens.style.top = y + "px";
-
-      resultImg.style.left = -x * cx + "px";
-      resultImg.style.top = -y * cy + "px";
-    }
-
-    function getCursorPos(e) {
-      const rect = img.getBoundingClientRect();
-      let x = 0, y = 0;
-      if (e.touches) {
-        x = e.touches[0].clientX - rect.left;
-        y = e.touches[0].clientY - rect.top;
-      } else {
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-      }
-      x = x / (rect.right - rect.left) * img.width;
-      y = y / (rect.bottom - rect.top) * img.height;
-      return { x, y };
-    }
-  });
-}
-
 function openProductDetail(productId) {
   currentProduct = products.find((p) => p.id === productId);
   if (!currentProduct) return;
@@ -1208,17 +1054,12 @@ function openProductDetail(productId) {
   productDetailModal.classList.remove("hidden");
   productDetailModal.classList.add("popupContainer");
   productDetailModal.focus();
-
-  // Initialize zoom on detail image
-  initZoomOnDetailImage();
 }
-
 closeProductDetail.addEventListener("click", () => {
   productDetailModal.classList.add("hidden");
   productDetailModal.classList.remove("popupContainer");
   currentProduct = null;
   closeChatbot();
-  removeZoomListeners();
 });
 productDetailModal.addEventListener("click", (e) => {
   if (e.target === productDetailModal) {
@@ -1226,7 +1067,6 @@ productDetailModal.addEventListener("click", (e) => {
     productDetailModal.classList.remove("popupContainer");
     currentProduct = null;
     closeChatbot();
-    removeZoomListeners();
   }
 });
 addToCartDetailBtn.addEventListener("click", () => {
@@ -1251,7 +1091,6 @@ addToCartDetailBtn.addEventListener("click", () => {
   productDetailModal.classList.add("hidden");
   productDetailModal.classList.remove("popupContainer");
   closeChatbot();
-  removeZoomListeners();
 });
 chatBargainBtn.addEventListener("click", () => {
   if (!currentUser) {
@@ -1445,136 +1284,55 @@ document.querySelectorAll("nav a[href^='#']").forEach((link) => {
     }
   });
 });
-
-// Fix navigation buttons to filter products by category
-document.querySelectorAll(".tab-button").forEach(button => {
-  button.addEventListener("click", () => {
-    // Update aria-selected and tabindex for accessibility
-    document.querySelectorAll(".tab-button").forEach(btn => {
-      btn.setAttribute("aria-selected", "false");
-      btn.setAttribute("tabindex", "-1");
-    });
-    button.setAttribute("aria-selected", "true");
-    button.setAttribute("tabindex", "0");
-
-    // Set category filter based on button data-tab
-    const tab = button.getAttribute("data-tab");
-    if (tab === "home") {
-      categoryFilter.value = "";
-    } else {
-      categoryFilter.value = tab;
-    }
-    renderProducts();
-
-    // Close mobile menu if open
-    if (!mobileMenu.classList.contains("hidden")) {
-      mobileMenu.classList.add("hidden");
-    }
-  });
-});
-
-// Zoom functionality for product detail modal image
-function initZoomOnDetailImage() {
-  const container = document.querySelector("#productDetailModal .zoom-container");
-  if (!container) return;
-  const img = container.querySelector("#detailImage");
-  const lens = document.getElementById("zoomLens");
-  const result = document.getElementById("zoomResult");
-  const resultImg = document.getElementById("zoomResultImage");
-
-  if (!img || !lens || !result || !resultImg) return;
-
-  // Set zoom result image src and alt
-  resultImg.src = img.src;
-  resultImg.alt = img.alt;
-
-  lens.style.display = "none";
-  result.style.display = "none";
-
-  // Remove previous listeners if any
-  container.onmousemove = null;
-  container.onmouseleave = null;
-  container.onmouseenter = null;
-
-  // Show lens and result on mouse enter
-  container.addEventListener("mouseenter", showLens);
-  container.addEventListener("mouseleave", hideLens);
-  container.addEventListener("mousemove", moveLens);
-  container.addEventListener("touchmove", moveLens);
-
-  function showLens() {
-    lens.style.display = "block";
-    result.style.display = "block";
-  }
-  function hideLens() {
-    lens.style.display = "none";
-    result.style.display = "none";
-  }
-
-  // Calculate lens size and position
-  const cx = result.offsetWidth / 100; // lens width fixed at 100px
-  const cy = result.offsetHeight / 100;
-
-  // Set lens size
-  lens.style.width = "100px";
-  lens.style.height = "100px";
-
-  // Set zoom result image size
-  resultImg.style.width = img.width * cx + "px";
-  resultImg.style.height = img.height * cy + "px";
-
-  function moveLens(e) {
+function openChatbot() {
+  chatbot.style.display = "flex";
+  chatbotInput.value = "";
+  chatbotMessages.innerHTML = "";
+  addBotMessage("Hello! How can I assist you with bargaining today?");
+  chatbotInput.focus();
+}
+function closeChatbot() {
+  chatbot.style.display = "none";
+}
+closeChatbotBtn.addEventListener("click", closeChatbot);
+chatbotSendBtn.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     e.preventDefault();
-    const pos = getCursorPos(e);
-    let x = pos.x - lens.offsetWidth / 2;
-    let y = pos.y - lens.offsetHeight / 2;
-
-    if (x > img.width - lens.offsetWidth) x = img.width - lens.offsetWidth;
-    if (x < 0) x = 0;
-    if (y > img.height - lens.offsetHeight) y = img.height - lens.offsetHeight;
-    if (y < 0) y = 0;
-
-    lens.style.left = x + "px";
-    lens.style.top = y + "px";
-
-    resultImg.style.left = -x * cx + "px";
-    resultImg.style.top = -y * cy + "px";
+    sendMessage();
   }
-
-  function getCursorPos(e) {
-    const rect = img.getBoundingClientRect();
-    let x = 0, y = 0;
-    if (e.touches) {
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
+});
+function addUserMessage(text) {
+  const div = document.createElement("div");
+  div.className = "chatbot-message user";
+  div.textContent = text;
+  chatbotMessages.appendChild(div);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+function addBotMessage(text) {
+  const div = document.createElement("div");
+  div.className = "chatbot-message bot";
+  div.textContent = text;
+  chatbotMessages.appendChild(div);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+function sendMessage() {
+  const text = chatbotInput.value.trim();
+  if (!text) return;
+  addUserMessage(text);
+  chatbotInput.value = "";
+  setTimeout(() => {
+    if (text.toLowerCase().includes("price")) {
+      addBotMessage("I can help you with price negotiations. What product are you interested in?");
+    } else if (text.toLowerCase().includes("hello") || text.toLowerCase().includes("hi")) {
+      addBotMessage("Hello! Feel free to ask about any product or bargaining options.");
+    } else if (text.toLowerCase().includes("thank")) {
+      addBotMessage("You're welcome! Let me know if you need anything else.");
     } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
+      addBotMessage("Thanks for your message! Our team will get back to you shortly.");
     }
-    x = x / (rect.right - rect.left) * img.width;
-    y = y / (rect.bottom - rect.top) * img.height;
-    return { x, y };
-  }
+  }, 1000);
 }
-
-// Remove zoom listeners on detail modal close
-function removeZoomListeners() {
-  const container = document.querySelector("#productDetailModal .zoom-container");
-  if (!container) return;
-  container.removeEventListener("mouseenter", null);
-  container.removeEventListener("mouseleave", null);
-  container.removeEventListener("mousemove", null);
-  container.removeEventListener("touchmove", null);
-  const lens = document.getElementById("zoomLens");
-  const result = document.getElementById("zoomResult");
-  if (lens) lens.style.display = "none";
-  if (result) result.style.display = "none";
-}
-
-// Hero section animation runs once on page load and stops
-// The CSS animation is set to run once (animation-iteration-count: 1) with forwards fill mode
-// No JS needed here as CSS handles it
-
 loadCart();
 loadUserSession();
 renderProducts();
@@ -1585,7 +1343,6 @@ document.addEventListener("keydown", (e) => {
       productDetailModal.classList.remove("popupContainer");
       currentProduct = null;
       closeChatbot();
-      removeZoomListeners();
     }
     if (!checkoutModal.classList.contains("hidden")) {
       checkoutModal.classList.add("hidden");
