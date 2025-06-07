@@ -1,0 +1,1104 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Admin Dashboard - ECI Creation Shop
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   :root {
+    --primary-color: #1e40af; /* Indigo-800 */
+    --secondary-color: #10b981; /* Emerald-500 */
+    --text-primary: #111827; /* Gray-900 */
+    --text-secondary: #6b7280; /* Gray-500 */
+    --background-light: #f9fafb; /* Gray-50 */
+    --background-dark: #111827; /* Gray-900 */
+    --link-color: #2563eb; /* Blue-600 */
+    --link-hover-color: #1d4ed8; /* Blue-700 */
+    --error-color: #ef4444; /* Red-500 */
+    --success-color: #10b981; /* Emerald-500 */
+  }
+  body {
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+  }
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+  /* Scrollbar for tables */
+  #buyersTable::-webkit-scrollbar,
+  #messagesTable::-webkit-scrollbar,
+  #productListTable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  #buyersTable::-webkit-scrollbar-thumb,
+  #messagesTable::-webkit-scrollbar-thumb,
+  #productListTable::-webkit-scrollbar-thumb {
+    background-color: rgba(30, 64, 175, 0.5);
+    border-radius: 4px;
+  }
+  #buyersTable::-webkit-scrollbar-track,
+  #messagesTable::-webkit-scrollbar-track,
+  #productListTable::-webkit-scrollbar-track {
+    background-color: #f9fafb;
+  }
+  /* Sidebar nav professional hover style */
+  aside nav ul li a {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  aside nav ul li a:hover,
+  aside nav ul li a:focus {
+    background-color: #e0e7ff; /* Indigo-100 */
+    color: var(--primary-color);
+    outline: none;
+  }
+  aside nav ul li a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  /* Header */
+  header {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  /* Tab navigation */
+  .tab-nav {
+    display: flex;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  .tab-nav button {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  .tab-nav button[aria-selected="true"] {
+    border-bottom-color: var(--primary-color);
+    background-color: #e0e7ff;
+    color: var(--primary-color);
+  }
+  .tab-nav button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  /* Section container */
+  .section-container {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    padding: 1.5rem;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  /* Table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead tr {
+    background-color: #e0e7ff;
+  }
+  th, td {
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+  th {
+    font-weight: 600;
+    color: var(--primary-color);
+    position: sticky;
+    top: 0;
+    background: #e0e7ff;
+    z-index: 10;
+  }
+  tbody tr:hover {
+    background-color: #f3f4f6;
+  }
+  /* Buttons */
+  .btn {
+    font-weight: 600;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  .btn-edit {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  .btn-edit:hover, .btn-edit:focus {
+    background-color: var(--link-hover-color);
+    outline: none;
+  }
+  .btn-delete {
+    background-color: var(--error-color);
+    color: white;
+  }
+  .btn-delete:hover, .btn-delete:focus {
+    background-color: #b91c1c;
+    outline: none;
+  }
+  .btn-respond {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+  .btn-respond:hover, .btn-respond:focus {
+    background-color: #059669;
+    outline: none;
+  }
+  /* Modal base */
+  .modal-overlay {
+    background-color: rgba(0,0,0,0.5);
+  }
+  .modal {
+    background: white;
+    border-radius: 0.5rem;
+    max-width: 28rem;
+    width: 100%;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgb(0 0 0 / 0.2);
+    position: relative;
+  }
+  .modal-header {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .modal-close-btn:hover, .modal-close-btn:focus {
+    color: var(--primary-color);
+    outline: none;
+  }
+  /* Form inputs */
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+  }
+  /* Form buttons */
+  .form-btn {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .form-btn:hover, .form-btn:focus {
+    background-color: var(--link-hover-color);
+    outline: none;
+  }
+  /* Responsive layout */
+  @media (max-width: 1024px) {
+    aside {
+      width: 56px;
+      min-width: 56px;
+    }
+    aside nav ul li a span {
+      display: none;
+    }
+    main {
+      padding: 1rem;
+    }
+  }
+  @media (max-width: 640px) {
+    .section-container {
+      max-height: none;
+      padding: 1rem;
+    }
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    tr {
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+    }
+    td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+    }
+    td::before {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      width: 45%;
+      padding-right: 0.5rem;
+      white-space: nowrap;
+      font-weight: 600;
+      text-align: left;
+      color: var(--primary-color);
+      content: attr(data-label);
+    }
+    td:last-child {
+      padding-bottom: 0.75rem;
+    }
+  }
+  </style>
+ </head>
+ <body class="flex h-screen overflow-hidden bg-[var(--background-light)] text-[var(--text-primary)]">
+  <!-- Sidebar -->
+  <aside aria-label="Admin navigation sidebar" class="flex flex-col bg-white border-r border-gray-200 w-64 min-w-[16rem] select-none">
+   <div class="flex flex-col items-center justify-center h-32 border-b border-gray-200 px-4 space-y-2 text-center">
+    <img alt="Admin profile photo, placeholder image of a professional person with short hair and a friendly smile" class="w-20 h-20 rounded-full object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/ded102e6-a83a-4cee-0651-5b9fee562e48.jpg" width="80"/>
+    <p class="font-semibold text-[var(--primary-color)] truncate max-w-full">
+     Admin User
+    </p>
+   </div>
+   <nav aria-label="Main admin navigation" class="flex-grow px-4 py-6 overflow-y-auto">
+    <ul class="space-y-2">
+     <li>
+      <a class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="#dashboard" tabindex="0">
+       <i class="fas fa-tachometer-alt mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Dashboard
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="#manageContent" tabindex="0">
+       <i class="fas fa-edit mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Manage Website Content
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="#messages" tabindex="0">
+       <i class="fas fa-envelope mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Buyer Messages
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="#buyers" tabindex="0">
+       <i class="fas fa-users mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Manage Buyers
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="#profile" tabindex="0">
+       <i class="fas fa-user-circle mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Profile
+       </span>
+      </a>
+     </li>
+     <li>
+      <a aria-label="Go to main shop homepage" class="flex items-center px-3 py-2 rounded-md text-gray-700 font-semibold hover:bg-indigo-100 focus:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" href="index.html" tabindex="0">
+       <i class="fas fa-store mr-3 text-[var(--primary-color)]">
+       </i>
+       <span>
+        Shop Homepage
+       </span>
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <div class="p-4 border-t border-gray-200">
+    <button aria-label="Logout from admin dashboard" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-red-400" id="adminLogoutBtn" type="button">
+     Logout
+    </button>
+   </div>
+  </aside>
+  <!-- Main Content -->
+  <div class="flex flex-col flex-grow overflow-auto">
+   <header class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white sticky top-0 z-10 select-none" role="banner">
+    <h1 class="text-xl font-bold text-[var(--primary-color)]">
+     Admin Dashboard
+    </h1>
+   </header>
+   <main class="flex-grow p-6 bg-gray-50 overflow-auto space-y-8" role="main">
+    <!-- Tab Navigation -->
+    <nav aria-label="Admin dashboard sections" class="tab-nav" role="tablist">
+     <button aria-controls="dashboard" aria-selected="true" id="tab-dashboard" role="tab" tabindex="0">
+      Dashboard
+     </button>
+     <button aria-controls="manageContent" aria-selected="false" id="tab-manageContent" role="tab" tabindex="-1">
+      Manage Content
+     </button>
+     <button aria-controls="messages" aria-selected="false" id="tab-messages" role="tab" tabindex="-1">
+      Buyer Messages
+     </button>
+     <button aria-controls="buyers" aria-selected="false" id="tab-buyers" role="tab" tabindex="-1">
+      Manage Buyers
+     </button>
+     <button aria-controls="profile" aria-selected="false" id="tab-profile" role="tab" tabindex="-1">
+      Profile
+     </button>
+    </nav>
+    <!-- Dashboard Overview -->
+    <section aria-label="Dashboard overview" aria-labelledby="tab-dashboard" class="section-container" id="dashboard" role="tabpanel" tabindex="-1">
+     <h2 class="text-2xl font-semibold text-[var(--primary-color)] mb-6">
+      Dashboard Overview
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+       <i class="fas fa-box-open text-4xl text-[var(--secondary-color)] mb-3">
+       </i>
+       <p class="text-lg font-semibold">
+        Total Products
+       </p>
+       <p class="text-3xl font-bold text-gray-800 mt-1" id="totalProducts">
+        54
+       </p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+       <i class="fas fa-users text-4xl text-[var(--secondary-color)] mb-3">
+       </i>
+       <p class="text-lg font-semibold">
+        Total Buyers
+       </p>
+       <p class="text-3xl font-bold text-gray-800 mt-1" id="totalBuyers">
+        15
+       </p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+       <i class="fas fa-envelope text-4xl text-[var(--secondary-color)] mb-3">
+       </i>
+       <p class="text-lg font-semibold">
+        Unread Messages
+       </p>
+       <p class="text-3xl font-bold text-gray-800 mt-1" id="unreadMessages">
+        3
+       </p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+       <i class="fas fa-user-shield text-4xl text-[var(--secondary-color)] mb-3">
+       </i>
+       <p class="text-lg font-semibold">
+        Admins
+       </p>
+       <p class="text-3xl font-bold text-gray-800 mt-1" id="totalAdmins">
+        1
+       </p>
+      </div>
+     </div>
+    </section>
+    <!-- Manage Website Content -->
+    <section aria-label="Manage website content" aria-labelledby="tab-manageContent" class="section-container hidden" id="manageContent" role="tabpanel" tabindex="-1">
+     <h2 class="text-2xl font-semibold text-[var(--primary-color)] mb-6">
+      Manage Website Content
+     </h2>
+     <div class="overflow-auto">
+      <table aria-describedby="productListDesc" class="min-w-full" id="productListTable" role="grid">
+       <caption class="sr-only" id="productListDesc">
+        List of products with options to edit or delete
+       </caption>
+       <thead>
+        <tr>
+         <th class="px-3 py-2" scope="col">
+          Product ID
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Name
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Category
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Price (USD)
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Actions
+         </th>
+        </tr>
+       </thead>
+       <tbody class="divide-y divide-gray-200" id="productList">
+        <tr data-id="1">
+         <td class="px-3 py-2" data-label="Product ID">
+          1
+         </td>
+         <td class="px-3 py-2 name" data-label="Name">
+          Indigo Denim Jacket
+         </td>
+         <td class="px-3 py-2 category" data-label="Category">
+          Men
+         </td>
+         <td class="px-3 py-2 price" data-label="Price">
+          75.00
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Edit Indigo Denim Jacket" class="btn btn-edit editProductBtn mr-2" type="button">
+           Edit
+          </button>
+          <button aria-label="Delete Indigo Denim Jacket" class="btn btn-delete deleteProductBtn" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr data-id="2">
+         <td class="px-3 py-2" data-label="Product ID">
+          2
+         </td>
+         <td class="px-3 py-2 name" data-label="Name">
+          Emerald Green Dress
+         </td>
+         <td class="px-3 py-2 category" data-label="Category">
+          Women
+         </td>
+         <td class="px-3 py-2 price" data-label="Price">
+          120.00
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Edit Emerald Green Dress" class="btn btn-edit editProductBtn mr-2" type="button">
+           Edit
+          </button>
+          <button aria-label="Delete Emerald Green Dress" class="btn btn-delete deleteProductBtn" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr data-id="3">
+         <td class="px-3 py-2" data-label="Product ID">
+          3
+         </td>
+         <td class="px-3 py-2 name" data-label="Name">
+          Leather Wallet
+         </td>
+         <td class="px-3 py-2 category" data-label="Category">
+          Accessories
+         </td>
+         <td class="px-3 py-2 price" data-label="Price">
+          45.00
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Edit Leather Wallet" class="btn btn-edit editProductBtn mr-2" type="button">
+           Edit
+          </button>
+          <button aria-label="Delete Leather Wallet" class="btn btn-delete deleteProductBtn" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <!-- Buyer Messages -->
+    <section aria-label="Buyer messages" aria-labelledby="tab-messages" class="section-container hidden" id="messages" role="tabpanel" tabindex="-1">
+     <h2 class="text-2xl font-semibold text-[var(--primary-color)] mb-6">
+      Buyer Messages
+     </h2>
+     <div class="overflow-auto">
+      <table aria-describedby="messagesListDesc" class="min-w-full" id="messagesTable" role="grid">
+       <caption class="sr-only" id="messagesListDesc">
+        List of buyer messages with options to respond or delete
+       </caption>
+       <thead>
+        <tr>
+         <th class="px-3 py-2" scope="col">
+          Message ID
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Buyer Name
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Email
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Message
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Response
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Actions
+         </th>
+        </tr>
+       </thead>
+       <tbody class="divide-y divide-gray-200" id="messagesList">
+        <tr>
+         <td class="px-3 py-2" data-label="Message ID">
+          101
+         </td>
+         <td class="px-3 py-2" data-label="Buyer Name">
+          Alice Johnson
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          alice@example.com
+         </td>
+         <td class="px-3 py-2 max-w-xs truncate" data-label="Message" title="I would like to know if you have this jacket in size M.">
+          I would like to know if you have this jacket in size M.
+         </td>
+         <td class="px-3 py-2" data-label="Response" id="response-101">
+          -
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Respond to message 101" class="btn btn-respond respondBtn mr-2" data-id="101" type="button">
+           Respond
+          </button>
+          <button aria-label="Delete message 101" class="btn btn-delete deleteMessageBtn" data-id="101" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="px-3 py-2" data-label="Message ID">
+          102
+         </td>
+         <td class="px-3 py-2" data-label="Buyer Name">
+          Bob Smith
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          bob@example.com
+         </td>
+         <td class="px-3 py-2 max-w-xs truncate" data-label="Message" title="Can you help me with the return policy?">
+          Can you help me with the return policy?
+         </td>
+         <td class="px-3 py-2" data-label="Response" id="response-102">
+          -
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Respond to message 102" class="btn btn-respond respondBtn mr-2" data-id="102" type="button">
+           Respond
+          </button>
+          <button aria-label="Delete message 102" class="btn btn-delete deleteMessageBtn" data-id="102" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="px-3 py-2" data-label="Message ID">
+          103
+         </td>
+         <td class="px-3 py-2" data-label="Buyer Name">
+          Clara Lee
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          clara@example.com
+         </td>
+         <td class="px-3 py-2 max-w-xs truncate" data-label="Message" title="Is there a discount for bulk orders?">
+          Is there a discount for bulk orders?
+         </td>
+         <td class="px-3 py-2" data-label="Response" id="response-103">
+          -
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Respond to message 103" class="btn btn-respond respondBtn mr-2" data-id="103" type="button">
+           Respond
+          </button>
+          <button aria-label="Delete message 103" class="btn btn-delete deleteMessageBtn" data-id="103" type="button">
+           Delete
+          </button>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <!-- Manage Buyers -->
+    <section aria-label="Manage buyers" aria-labelledby="tab-buyers" class="section-container hidden" id="buyers" role="tabpanel" tabindex="-1">
+     <h2 class="text-2xl font-semibold text-[var(--primary-color)] mb-6">
+      Manage Buyers
+     </h2>
+     <div class="overflow-auto">
+      <table aria-describedby="buyersListDesc" class="min-w-full" id="buyersTable" role="grid">
+       <caption class="sr-only" id="buyersListDesc">
+        List of buyers with options to delete accounts
+       </caption>
+       <thead>
+        <tr>
+         <th class="px-3 py-2" scope="col">
+          Buyer ID
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Name
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Email
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Password
+         </th>
+         <th class="px-3 py-2" scope="col">
+          Actions
+         </th>
+        </tr>
+       </thead>
+       <tbody class="divide-y divide-gray-200" id="buyersList">
+        <tr>
+         <td class="px-3 py-2" data-label="Buyer ID">
+          201
+         </td>
+         <td class="px-3 py-2" data-label="Name">
+          Alice Johnson
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          alice@example.com
+         </td>
+         <td class="px-3 py-2" data-label="Password">
+          ••••••••
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Delete account for Alice Johnson" class="btn btn-delete deleteBuyerBtn" data-id="201" type="button">
+           Delete Account
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="px-3 py-2" data-label="Buyer ID">
+          202
+         </td>
+         <td class="px-3 py-2" data-label="Name">
+          Bob Smith
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          bob@example.com
+         </td>
+         <td class="px-3 py-2" data-label="Password">
+          ••••••••
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Delete account for Bob Smith" class="btn btn-delete deleteBuyerBtn" data-id="202" type="button">
+           Delete Account
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="px-3 py-2" data-label="Buyer ID">
+          203
+         </td>
+         <td class="px-3 py-2" data-label="Name">
+          Clara Lee
+         </td>
+         <td class="px-3 py-2" data-label="Email">
+          clara@example.com
+         </td>
+         <td class="px-3 py-2" data-label="Password">
+          ••••••••
+         </td>
+         <td class="px-3 py-2 whitespace-nowrap" data-label="Actions">
+          <button aria-label="Delete account for Clara Lee" class="btn btn-delete deleteBuyerBtn" data-id="203" type="button">
+           Delete Account
+          </button>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <!-- Profile Section -->
+    <section aria-label="Admin profile" aria-labelledby="tab-profile" class="section-container hidden" id="profile" role="tabpanel" tabindex="-1">
+     <h2 class="text-2xl font-semibold text-[var(--primary-color)] mb-6">
+      Profile
+     </h2>
+     <div class="max-w-md mx-auto bg-white rounded-lg shadow p-6">
+      <img alt="Admin profile photo, placeholder image of a professional person with short hair and a friendly smile" class="w-36 h-36 rounded-full object-cover mx-auto mb-6" height="150" src="https://storage.googleapis.com/a1aa/image/ded102e6-a83a-4cee-0651-5b9fee562e48.jpg" width="150"/>
+      <form id="profileForm" novalidate="">
+       <div class="mb-4">
+        <label class="block font-semibold mb-1 text-gray-700" for="adminName">
+         Name
+        </label>
+        <input class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="adminName" name="adminName" required="" type="text" value="Admin User"/>
+       </div>
+       <div class="mb-4">
+        <label class="block font-semibold mb-1 text-gray-700" for="adminEmail">
+         Email
+        </label>
+        <input class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="adminEmail" name="adminEmail" required="" type="email" value="admin@example.com"/>
+       </div>
+       <div class="mb-6">
+        <label class="block font-semibold mb-1 text-gray-700" for="adminPassword">
+         Change Password
+        </label>
+        <input class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="adminPassword" name="adminPassword" placeholder="Leave blank to keep current password" type="password"/>
+       </div>
+       <button class="form-btn w-full" type="submit">
+        Update Profile
+       </button>
+      </form>
+     </div>
+    </section>
+   </main>
+  </div>
+  <!-- Edit Product Modal -->
+  <div aria-describedby="editProductModalDesc" aria-labelledby="editProductModalTitle" aria-modal="true" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden z-50" id="editProductModal" role="dialog">
+   <div class="modal">
+    <button aria-label="Close edit product modal" class="modal-close-btn" id="closeEditProductModal" type="button">
+     <i class="fas fa-times">
+     </i>
+    </button>
+    <h3 class="modal-header" id="editProductModalTitle">
+     Edit Product
+    </h3>
+    <form class="space-y-4" id="editProductForm" novalidate="">
+     <input id="editProductId" type="hidden"/>
+     <div>
+      <label class="block font-medium mb-1 text-gray-700" for="editProductName">
+       Name
+      </label>
+      <input class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="editProductName" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block font-medium mb-1 text-gray-700" for="editProductCategory">
+       Category
+      </label>
+      <select class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="editProductCategory" required="">
+       <option value="">
+        Select category
+       </option>
+       <option value="Men">
+        Men
+       </option>
+       <option value="Women">
+        Women
+       </option>
+       <option value="Accessories">
+        Accessories
+       </option>
+      </select>
+     </div>
+     <div>
+      <label class="block font-medium mb-1 text-gray-700" for="editProductPrice">
+       Price (USD)
+      </label>
+      <input class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="editProductPrice" min="0" required="" step="0.01" type="number"/>
+     </div>
+     <div class="flex justify-end space-x-4">
+      <button class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300" id="cancelEditProductBtn" type="button">
+       Cancel
+      </button>
+      <button class="form-btn" type="submit">
+       Save Changes
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <!-- Respond Modal -->
+  <div aria-describedby="respondModalDesc" aria-labelledby="respondModalTitle" aria-modal="true" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden z-50" id="respondModal" role="dialog">
+   <div class="modal">
+    <button aria-label="Close respond modal" class="modal-close-btn" id="closeRespondModal" type="button">
+     <i class="fas fa-times">
+     </i>
+    </button>
+    <h3 class="modal-header" id="respondModalTitle">
+     Respond to Message
+    </h3>
+    <p class="mb-4 text-gray-700" id="respondModalDesc">
+    </p>
+    <form class="space-y-4" id="respondForm" novalidate="">
+     <textarea class="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" id="responseText" name="responseText" placeholder="Type your response here..." required="" rows="5"></textarea>
+     <div class="flex justify-end space-x-4">
+      <button class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300" id="cancelRespondBtn" type="button">
+       Cancel
+      </button>
+      <button class="form-btn" type="submit">
+       Send Response
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <script>
+   // Tab navigation logic
+  const tabs = document.querySelectorAll('.tab-nav button');
+  const tabPanels = document.querySelectorAll('main > section[role="tabpanel"]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Update tab selected states
+      tabs.forEach(t => {
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tab.focus();
+
+      // Show/hide tab panels
+      const targetId = tab.getAttribute('aria-controls');
+      tabPanels.forEach(panel => {
+        if (panel.id === targetId) {
+          panel.classList.remove('hidden');
+          panel.focus();
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Redirect logout to index.html
+  document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+    if (confirm('Are you sure you want to logout?')) {
+      window.location.href = 'index.html';
+    }
+  });
+
+  // Edit product modal elements
+  const editProductModal = document.getElementById('editProductModal');
+  const editProductForm = document.getElementById('editProductForm');
+  const editProductIdInput = document.getElementById('editProductId');
+  const editProductNameInput = document.getElementById('editProductName');
+  const editProductCategorySelect = document.getElementById('editProductCategory');
+  const editProductPriceInput = document.getElementById('editProductPrice');
+  const cancelEditProductBtn = document.getElementById('cancelEditProductBtn');
+  const closeEditProductModalBtn = document.getElementById('closeEditProductModal');
+
+  // Open edit modal and populate fields
+  document.querySelectorAll('.editProductBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('tr');
+      const id = row.getAttribute('data-id');
+      const name = row.querySelector('.name').textContent;
+      const category = row.querySelector('.category').textContent;
+      const priceText = row.querySelector('.price').textContent;
+      const price = priceText.replace('$', '').trim();
+
+      editProductIdInput.value = id;
+      editProductNameInput.value = name;
+      editProductCategorySelect.value = category;
+      editProductPriceInput.value = price;
+
+      editProductModal.classList.remove('hidden');
+      editProductNameInput.focus();
+    });
+  });
+
+  // Close edit modal handlers
+  cancelEditProductBtn.addEventListener('click', () => {
+    editProductModal.classList.add('hidden');
+  });
+  closeEditProductModalBtn.addEventListener('click', () => {
+    editProductModal.classList.add('hidden');
+  });
+
+  // Save changes on edit product form submit
+  editProductForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const id = editProductIdInput.value;
+    const name = editProductNameInput.value.trim();
+    const category = editProductCategorySelect.value;
+    const price = parseFloat(editProductPriceInput.value).toFixed(2);
+
+    if (!name || !category || isNaN(price) || price < 0) {
+      alert('Please fill all fields correctly.');
+      return;
+    }
+
+    // Find the product row and update values
+    const row = document.querySelector(`#productList tr[data-id="${id}"]`);
+    if (row) {
+      row.querySelector('.name').textContent = name;
+      row.querySelector('.category').textContent = category;
+      row.querySelector('.price').textContent = price;
+    }
+
+    editProductModal.classList.add('hidden');
+    alert('Product updated successfully (demo).');
+  });
+
+  // Delete product handler
+  document.querySelectorAll('.deleteProductBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this product?')) {
+        const row = btn.closest('tr');
+        row.remove();
+        alert('Product deleted successfully (demo).');
+        // Update total products count
+        const totalProductsElem = document.getElementById('totalProducts');
+        const currentCount = parseInt(totalProductsElem.textContent, 10);
+        totalProductsElem.textContent = Math.max(0, currentCount - 1);
+      }
+    });
+  });
+
+  // Respond modal elements
+  const respondModal = document.getElementById('respondModal');
+  const respondModalDesc = document.getElementById('respondModalDesc');
+  const responseText = document.getElementById('responseText');
+  const respondForm = document.getElementById('respondForm');
+  const cancelRespondBtn = document.getElementById('cancelRespondBtn');
+  const closeRespondModalBtn = document.getElementById('closeRespondModal');
+  let currentRespondId = null;
+
+  // Open respond modal
+  document.querySelectorAll('.respondBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentRespondId = btn.getAttribute('data-id');
+      const messageRow = btn.closest('tr');
+      const messageText = messageRow.querySelector('td:nth-child(4)').textContent;
+      respondModalDesc.textContent = `Message: "${messageText}"`;
+      responseText.value = '';
+      respondModal.classList.remove('hidden');
+      responseText.focus();
+    });
+  });
+
+  // Close respond modal
+  cancelRespondBtn.addEventListener('click', () => {
+    respondModal.classList.add('hidden');
+  });
+  closeRespondModalBtn.addEventListener('click', () => {
+    respondModal.classList.add('hidden');
+  });
+
+  // Handle respond form submit
+  respondForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!responseText.value.trim()) {
+      alert('Please enter a response.');
+      responseText.focus();
+      return;
+    }
+    // Set response text in messages table
+    const responseCell = document.getElementById(`response-${currentRespondId}`);
+    responseCell.textContent = responseText.value.trim();
+    respondModal.classList.add('hidden');
+    alert('Response sent (demo).');
+  });
+
+  // Delete message handler
+  document.querySelectorAll('.deleteMessageBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this message?')) {
+        const row = btn.closest('tr');
+        row.remove();
+        alert('Message deleted (demo).');
+        // Update unread messages count
+        const unreadMessagesElem = document.getElementById('unreadMessages');
+        const currentCount = parseInt(unreadMessagesElem.textContent, 10);
+        unreadMessagesElem.textContent = Math.max(0, currentCount - 1);
+      }
+    });
+  });
+
+  // Delete buyer account handler
+  document.querySelectorAll('.deleteBuyerBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this buyer account?')) {
+        const row = btn.closest('tr');
+        row.remove();
+        alert('Buyer account deleted (demo).');
+        // Update total buyers count
+        const totalBuyersElem = document.getElementById('totalBuyers');
+        const currentCount = parseInt(totalBuyersElem.textContent, 10);
+        totalBuyersElem.textContent = Math.max(0, currentCount - 1);
+      }
+    });
+  });
+
+  // Profile form submit handler (demo)
+  const profileForm = document.getElementById('profileForm');
+  profileForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = profileForm.adminName.value.trim();
+    const email = profileForm.adminEmail.value.trim();
+    // Password can be blank to keep current
+    const password = profileForm.adminPassword.value;
+
+    if (!name || !email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    // Demo alert
+    alert(`Profile updated successfully!\nName: ${name}\nEmail: ${email}${password ? '\nPassword: (changed)' : '\nPassword: (unchanged)'}`);
+    profileForm.adminPassword.value = '';
+  });
+
+  // Accessibility: trap focus inside modals when open
+  function trapFocus(modal) {
+    const focusableElements = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+    if (focusableElements.length === 0) return;
+    const firstEl = focusableElements[0];
+    const lastEl = focusableElements[focusableElements.length - 1];
+    modal.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) { // Shift + Tab
+          if (document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+          }
+        } else { // Tab
+          if (document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
+      }
+      if (e.key === 'Escape') {
+        if (!modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
+      }
+    });
+  }
+  trapFocus(editProductModal);
+  trapFocus(respondModal);
+
+  // Close modals on Escape key globally
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (!editProductModal.classList.contains('hidden')) {
+        editProductModal.classList.add('hidden');
+      }
+      if (!respondModal.classList.contains('hidden')) {
+        respondModal.classList.add('hidden');
+      }
+    }
+  });
+  </script>
+ </body>
+</html>

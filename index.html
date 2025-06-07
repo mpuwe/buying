@@ -448,6 +448,96 @@ input, textarea {
   will-change: transform;
   position: relative;
 }
+
+/* Chatbot (Messaging Chat) styling */
+#chatbot {
+  position: fixed;
+  bottom: 20px;
+  right: 5px;
+  width: 320px;
+  max-height: 450px;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 50;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+}
+#chatbotHeader {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+#chatbotMessages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#chatbotInputContainer {
+  border-top: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+#chatbotInput {
+  flex-grow: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#chatbotInput:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+}
+#chatbotSendBtn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 9999px;
+  padding: 0 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+#chatbotSendBtn:hover, #chatbotSendBtn:focus {
+  background-color: var(--link-hover-color);
+  outline: none;
+}
+.chatbot-message.user {
+  background-color: #d1fae5; /* Emerald-100 */
+  color: #065f46; /* Emerald-800 */
+  padding: 0.5rem 1rem;
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  max-width: 75%;
+  align-self: flex-end;
+  word-wrap: break-word;
+  box-shadow: 0 1px 3px rgba(6, 95, 70, 0.3);
+}
+.chatbot-message.bot {
+  background-color: #e0e7ff; /* Indigo-100 */
+  color: #3730a3; /* Indigo-800 */
+  padding: 0.5rem 1rem;
+  border-radius: 1rem 1rem 1rem 0.25rem;
+  max-width: 75%;
+  align-self: flex-start;
+  word-wrap: break-word;
+  box-shadow: 0 1px 3px rgba(55, 48, 163, 0.3);
+}
 </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -615,7 +705,7 @@ input, textarea {
         <button aria-label="Add product to cart" class="text-white py-2 px-4 rounded-md font-semibold hover:bg-link-hover-color transition w-full mb-4" id="addToCartDetailBtn" style="background-color: var(--primary-color);" type="button" >
           Add to Cart
         </button>
-        <button aria-label="Chat for bargaining" class="chat-btn w-full text-primary-600 border border-primary-600 hover:bg-primary-100 rounded-md py-2 font-semibold transition" id="chatBargainBtn" type="button" >
+        <button aria-label="Open bargaining chat" class="chat-btn w-full text-primary-600 border border-primary-600 hover:bg-primary-100 rounded-md py-2 font-semibold transition" id="chatBargainBtn" type="button" >
           Chat for Bargaining
         </button>
       </div>
@@ -675,8 +765,8 @@ input, textarea {
     </form>
   </div>
 </div>
-<!-- Chatbot -->
-<div aria-describedby="chatbotMessages" aria-labelledby="chatbotHeader" aria-modal="true" id="chatbot" role="dialog" class="fixed bottom-20 right-5 w-80 max-h-[400px] bg-white rounded-xl shadow-lg flex flex-col overflow-hidden z-50 hidden font-sans" >
+<!-- Chatbot (Messaging Chat) -->
+<div aria-describedby="chatbotMessages" aria-labelledby="chatbotHeader" aria-modal="true" id="chatbot" role="dialog" class="hidden" >
   <div id="chatbotHeader" class="bg-[var(--primary-color)] text-white p-3 font-semibold flex justify-between items-center select-none" >
     Bargain Chat
     <button aria-label="Close chat" class="text-white hover:text-gray-300 focus:outline-none" id="closeChatbotBtn" type="button" >
@@ -749,7 +839,8 @@ input, textarea {
   </div>
 </footer>
 <script>
-// JavaScript code to handle product display, cart functionality, and user interactions
+// JavaScript code to handle product display, cart functionality, user interactions, and improved chat & auth logic
+
 const products = [
   { id: 1, name: "Men's Fashion Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 7.99, image: "dress.png", description: "A timeless fashion shirt for men, perfect for Beaut and smart occasions." },
   { id: 2, name: "Women's Pink Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 8.5, image: "unnamed (2).jpg", description: "Light and breezy pink summer dress for women, ideal for warm weather." },
@@ -764,11 +855,12 @@ const products = [
   { id: 13, name: "Baby boy's smooth yam sweater", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men3.jpg", description: "Amezing casual Baby boy's sweater, available in multiple design." },
   { id: 14, name: "Women's kitengen Skirt", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "cloth3.jpg", description: "Women Creative skirt and comfortable made in africa fabric." },
   { id: 13, name: "Babies's Girl yam sweater", category: "Women", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "good.jpg", description: "Amezing casual Babies sweater, available in multiple colors." },
-
 ];
 
 let cart = {};
 let currentUser = null;
+let chatSessions = {}; // key: productId-userEmail, value: array of messages {sender:'user'|'admin', text, timestamp}
+
 const productsGrid = document.getElementById("productsGrid");
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
@@ -827,9 +919,30 @@ const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
 let currentProduct = null;
 const ADMIN_EMAIL = "mpuwezimanaelie@gmail.com";
 const ADMIN_PASSWORD_KEY = "rimbaAdminPassword";
+
 if (!localStorage.getItem(ADMIN_PASSWORD_KEY)) {
   localStorage.setItem(ADMIN_PASSWORD_KEY, "admin123");
 }
+
+// User database simulation in localStorage (email as key)
+function getUsers() {
+  const users = localStorage.getItem("rimbaUsers");
+  return users ? JSON.parse(users) : {};
+}
+function saveUsers(users) {
+  localStorage.setItem("rimbaUsers", JSON.stringify(users));
+}
+
+// Save chat sessions to localStorage
+function saveChatSessions() {
+  localStorage.setItem("rimbaChatSessions", JSON.stringify(chatSessions));
+}
+function loadChatSessions() {
+  const sessions = localStorage.getItem("rimbaChatSessions");
+  chatSessions = sessions ? JSON.parse(sessions) : {};
+}
+
+// Save user session
 function saveUserSession() {
   if (currentUser) {
     localStorage.setItem("rimbaUser", JSON.stringify(currentUser));
@@ -882,6 +995,8 @@ document.addEventListener("click", (e) => {
     userMenuButton.setAttribute("aria-expanded", "false");
   }
 });
+
+// Show auth modal with improved logic
 function showAuthModal(mode) {
   authForm.reset();
   authModal.classList.remove("hidden");
@@ -926,6 +1041,8 @@ closeAuthModal.addEventListener("click", () => {
   authModal.classList.remove("popupContainer");
   authModal.setAttribute("aria-hidden", "true");
 });
+
+// Improved auth form submit logic with user existence check and password validation
 authForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const mode = authForm.dataset.mode;
@@ -936,18 +1053,33 @@ authForm.addEventListener("submit", (e) => {
     alert("Please fill in all required fields.");
     return;
   }
+  const users = getUsers();
   if (mode === "login") {
     if (email === ADMIN_EMAIL) {
       alert("Please use Admin login for admin accounts.");
       return;
     }
+    if (!users[email]) {
+      alert("No account found with this email. Please sign up first.");
+      return;
+    }
+    if (users[email].password !== password) {
+      alert("Incorrect password.");
+      return;
+    }
     currentUser = {
       role: "user",
       email,
-      name: email.split("@")[0],
+      name: users[email].name,
     };
     alert(`Welcome back, ${currentUser.name}!`);
   } else if (mode === "signup") {
+    if (users[email]) {
+      alert("An account with this email already exists. Please login.");
+      return;
+    }
+    users[email] = { name, password };
+    saveUsers(users);
     currentUser = {
       role: "user",
       email,
@@ -964,7 +1096,7 @@ authForm.addEventListener("submit", (e) => {
           name: "Admin"
         };
         alert("Admin login successful. Redirecting to admin dashboard...");
-        window.location.href = "ok.html";
+        window.location.href = "admin.html";
         return;
       } else {
         alert("Invalid admin credentials.");
@@ -980,6 +1112,8 @@ authForm.addEventListener("submit", (e) => {
   authModal.classList.remove("popupContainer");
   authModal.setAttribute("aria-hidden", "true");
 });
+
+// Logout function
 function logout() {
   currentUser = null;
   saveUserSession();
@@ -1024,6 +1158,8 @@ mobileAdminLoginBtn.addEventListener("click", () => {
   showAuthModal("admin");
   mobileMenu.classList.add("hidden");
 });
+
+// Products rendering and filtering (unchanged)
 function renderProducts(skipAnimation = false) {
   const searchTerm = searchInput.value.trim().toLowerCase();
   const category = categoryFilter.value;
@@ -1116,7 +1252,7 @@ function renderProducts(skipAnimation = false) {
   }, 300);
 }
 
-// Zoom functionality for product grid images
+// Zoom functionality for product grid images (unchanged)
 function initZoomOnGridImages() {
   const zoomContainers = document.querySelectorAll(".zoom-container");
   zoomContainers.forEach(container => {
@@ -1261,6 +1397,8 @@ addToCartDetailBtn.addEventListener("click", () => {
   closeChatbot();
   removeZoomListeners();
 });
+
+// Chat for Bargaining - Messaging Chat Implementation
 chatBargainBtn.addEventListener("click", () => {
   if (!currentUser) {
     productDetailModal.classList.add("hidden");
@@ -1270,6 +1408,94 @@ chatBargainBtn.addEventListener("click", () => {
   }
   openChatbot();
 });
+
+function openChatbot() {
+  if (!currentProduct || !currentUser) return;
+  chatbot.classList.remove("hidden");
+  chatbotMessages.innerHTML = "";
+  chatbotInput.value = "";
+  chatbotInput.focus();
+  // Load chat session for current product and user
+  const chatKey = `${currentProduct.id}-${currentUser.email}`;
+  if (!chatSessions[chatKey]) {
+    chatSessions[chatKey] = [];
+  }
+  renderChatMessages(chatSessions[chatKey]);
+}
+
+function closeChatbot() {
+  chatbot.classList.add("hidden");
+  chatbotMessages.innerHTML = "";
+  chatbotInput.value = "";
+}
+
+closeChatbotBtn.addEventListener("click", () => {
+  closeChatbot();
+});
+
+function renderChatMessages(messages) {
+  chatbotMessages.innerHTML = "";
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.className = `chatbot-message ${msg.sender === "user" ? "user" : "bot"}`;
+    div.textContent = msg.text;
+    chatbotMessages.appendChild(div);
+  });
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+chatbotSendBtn.addEventListener("click", () => {
+  sendMessage();
+});
+chatbotInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+function sendMessage() {
+  const text = chatbotInput.value.trim();
+  if (!text) return;
+  if (!currentProduct || !currentUser) {
+    alert("Please select a product and login to chat.");
+    return;
+  }
+  const chatKey = `${currentProduct.id}-${currentUser.email}`;
+  if (!chatSessions[chatKey]) {
+    chatSessions[chatKey] = [];
+  }
+  // Add user message
+  chatSessions[chatKey].push({ sender: "user", text, timestamp: Date.now() });
+  renderChatMessages(chatSessions[chatKey]);
+  chatbotInput.value = "";
+  saveChatSessions();
+
+  // Simulate admin response after delay
+  setTimeout(() => {
+    const adminResponse = generateAdminResponse(text);
+    chatSessions[chatKey].push({ sender: "admin", text: adminResponse, timestamp: Date.now() });
+    renderChatMessages(chatSessions[chatKey]);
+    saveChatSessions();
+  }, 1500);
+}
+
+// Simple admin response generator (can be improved or replaced with real backend)
+function generateAdminResponse(userText) {
+  const lower = userText.toLowerCase();
+  if (lower.includes("price")) {
+    return "Thank you for your interest! We can offer a special price for you. Please let us know your offer.";
+  }
+  if (lower.includes("discount")) {
+    return "We do offer discounts on bulk orders. Please specify the quantity you want.";
+  }
+  if (lower.includes("size")) {
+    return "Please specify your preferred size, and we will check availability.";
+  }
+  return "Thank you for your message! We will get back to you shortly.";
+}
+
+// Cart functions (unchanged)
 function addToCart(productId, size = "", quantity = 1) {
   const key = size ? `${productId}-${size}` : `${productId}`;
   if (cart[key]) {
@@ -1585,6 +1811,7 @@ function removeZoomListeners() {
 
 loadCart();
 loadUserSession();
+loadChatSessions();
 renderProducts();
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
