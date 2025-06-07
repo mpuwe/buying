@@ -20,6 +20,7 @@
   --success-color: #10b981; /* Emerald-500 */
 }
 body {
+  overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
   margin: 0;
@@ -389,7 +390,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(100%, -100%) rotate(-15deg);
+    transform: translate(50%, -100%) rotate(-15deg);
     z-index: 10;
   }
 }
@@ -399,7 +400,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(100%, 100%) rotate(15deg);
+    transform: translate(50%, 100%) rotate(15deg);
     z-index: 10;
   }
 }
@@ -409,7 +410,7 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(-100%, -100%) rotate(15deg);
+    transform: translate(-50%, -100%) rotate(15deg);
     z-index: 10;
   }
 }
@@ -419,10 +420,14 @@ footer {
     z-index: 1;
   }
   50% {
-    transform: translate(-100%, 100%) rotate(-15deg);
+    transform: translate(-50%, 100%) rotate(-15deg);
     z-index: 10;
   }
 }
+input, textarea {
+  color: black !important;
+}
+
 .hero-image-animate-1 {
   animation: diagonalSwapFirst 6s ease-in-out 1 forwards;
   will-change: transform;
@@ -735,7 +740,7 @@ footer {
     <div class="footer-section" id="contact">
       <h3 class="text-lg font-semibold mb-3">Send us a message</h3>
       <form id="footerContactForm" novalidate>
-        <input aria-label="Your name" id="contactName" name="contactName" placeholder="Your Name" required type="text" autocomplete="name" />
+        <input aria-label="Your name"  id="contactName" name="contactName" placeholder="Your Name" required type="text" autocomplete="name" />
         <input aria-label="Your email" id="contactEmail" name="contactEmail" placeholder="Your Email" required type="email" autocomplete="email" />
         <textarea aria-label="Your message" id="contactMessage" name="contactMessage" placeholder="Your Message" required rows="4" ></textarea>
         <button type="submit">Send Message</button>
@@ -745,18 +750,20 @@ footer {
 </footer>
 <script>
 const products = [
-  { id: 1, name: "Men's Fashion Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 7.99, image: "dress.png", description: "A timeless white shirt for men, perfect for formal and casual occasions." },
-  { id: 2, name: "Women's Pink Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 8.5, image: "unnamed (2).jpg", description: "Light and breezy red summer dress for women, ideal for warm weather." },
-  { id: 4, name: "Men's Modern Suit", category: "Men", size: ["M", "L", "XL"], price: 8.9, image: "men1.png", description: "Comfortable and stylish blue denim jeans for men." },
-  { id: 5, name: "Women's Darkgreen Sweater Best for Claudy", category: "Women", size: ["S", "M", "L"], price: 8.59, image: "unnamed.jpg", description: "Elegant black leather jacket for women, perfect for chilly days." },
-  { id: 7, name: "Lam Season Sweater", category: "Men", size: ["M", "L", "XL"], price: 9.9, image: "men2.png", description: "Classic black formal shoes for men, perfect for office and events." },
-  { id: 8, name: "Women's Casual Sneakers", category: "Women", size: ["S", "M", "L"], price: 7.99, image: "unnamed (1).jpg", description: "Comfortable and stylish sneakers for everyday wear." },
-  { id: 10, name: "Men's Sports Jacket", category: "Men", size: ["S", "M", "L", "XL"], price: 8.0, image: "men4.jpg", description: "Lightweight sports jacket for men, suitable for outdoor activities." },
-  { id: 11, name: "Women's Evening Gown", category: "Women", size: ["S", "M", "L"], price: 9, image: "cloth4.jpg", description: "Elegant evening gown for special occasions." },
-  { id: 13, name: "Men's Casual T-Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men.png", description: "Comfortable casual t-shirt for men, available in multiple colors." },
-  { id: 14, name: "Women's Yoga Pants", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "anic.png", description: "Stretchy and comfortable yoga pants for women." },
-  { id: 13, name: "Men's Casual T-Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men3.jpg", description: "Comfortable casual t-shirt for men, available in multiple colors." },
-  { id: 14, name: "Women's Yoga Pants", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "cloth3.jpg", description: "Stretchy and comfortable yoga pants for women." },
+  { id: 1, name: "Men's Fashion Shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 7.99, image: "dress.png", description: "A timeless fashion shirt for men, perfect for Beaut and smart occasions." },
+  { id: 2, name: "Women's Pink Summer Dress", category: "Women", size: ["XS", "S", "M", "L"], price: 8.5, image: "unnamed (2).jpg", description: "Light and breezy pink summer dress for women, ideal for warm weather." },
+  { id: 4, name: "Men's Modern Suit", category: "Men", size: ["M", "L", "XL"], price: 8.9, image: "men1.png", description: "Comfortable and stylish blue modern formal suit for men." },
+  { id: 5, name: "Women's Darkgreen Claudy Sweater", category: "Women", size: ["S", "M", "L"], price: 8.59, image: "unnamed.jpg", description: "Elegant black leather jacket for women, perfect for chilly days." },
+  { id: 7, name: "Yam Season Sweater", category: "Men", size: ["M", "L", "XL"], price: 9.9, image: "men2.png", description: "Classic black youth sweater for men, perfect for party and events." },
+  { id: 8, name: "Women's Off Sholder Crop Top", category: "Women", size: ["S", "M", "L"], price: 7.99, image: "unnamed (1).jpg", description: "Comfortable and stylish croptop for everyday wear, flexible in hot seasons" },
+  { id: 10, name: "Men's fashon shirt", category: "Men", size: ["S", "M", "L", "XL"], price: 8.0, image: "men4.jpg", description: "Pure black fashion shirt for men, suitable for Big Moments." },
+  { id: 11, name: "Women's Pride Dress", category: "Women", size: ["S", "M", "L"], price: 9, image: "cloth4.jpg", description: " Daily cloths for women, best for church and respectifly places." },
+  { id: 13, name: "Men's smooth Shirt", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men.png", description: "Comfortable casual shirt for men, available in multiple colors." },
+  { id: 14, name: "Women's Yam Tops", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "anic.png", description: "Thready comfortable cloth for women." },
+  { id: 13, name: "Baby boy's smooth yam sweater", category: "Men", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "men3.jpg", description: "Amezing casual Baby boy's sweater, available in multiple design." },
+  { id: 14, name: "Women's kitengen Skirt", category: "Women", size: ["S", "M", "L"], price: 10.2, image: "cloth3.jpg", description: "Women Creative skirt and comfortable made in africa fabric." },
+  { id: 13, name: "Babies's Girl yam sweater", category: "Women", size: ["XS", "S", "M", "L", "XL"], price: 8.78, image: "good.jpg", description: "Amezing casual Babies sweater, available in multiple colors." },
+
 ];
 
 let cart = {};
